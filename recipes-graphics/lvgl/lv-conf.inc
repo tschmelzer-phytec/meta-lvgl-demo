@@ -6,6 +6,7 @@ DEPENDS += "python3-kconfiglib-native python3-pcpp-native"
 SRC_URI += " \
     file://defconfig \
     ${@oe.utils.vartrue('DEBUG_BUILD', 'file://debug.cfg', '', d)} \
+    ${@bb.utils.contains('PACKAGECONFIG', 'benchmark', 'file://benchmark.cfg', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'drm', 'file://drm.cfg', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'fbdev', 'file://fbdev.cfg', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'freetype', 'file://freetype.cfg', '', d)} \
@@ -17,6 +18,7 @@ SRC_URI += " \
 
 PACKAGECONFIG ??= "drm"
 
+PACKAGECONFIG[benchmark] = ",,"
 PACKAGECONFIG[drm] = ",,libdrm libevdev"
 PACKAGECONFIG[wayland] = ",,wayland wayland-protocols wayland-native libxkbcommon"
 PACKAGECONFIG[fbdev] = ",,libevdev"
