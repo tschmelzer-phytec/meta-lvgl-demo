@@ -1,16 +1,18 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
-PACKAGECONFIG = "wayland"
+PACKAGECONFIG = "wayland truck-demo"
 
 DEPENDS:append:imxgpu3d = "libdrm virtual/libgbm"
 
 PACKAGECONFIG[benchmark] = ",,"
+PACKAGECONFIG[truck-demo] = ",,fastgltf simdjson libwebp"
 
 inherit systemd
 
 SRC_URI += "file://lvgl-demo-fb.service \
             file://0001-feat-add-option-to-start-benchmark-demo.patch \
             ${@bb.utils.contains('PACKAGECONFIG', 'benchmark', 'file://benchmark.cfg', '', d)} \
+            ${@bb.utils.contains('PACKAGECONFIG', 'truck-demo', 'file://truck-demo.cfg', '', d)} \
            "
 
 SYSTEMD_SERVICE:${PN} = "lvgl-demo-fb.service"
